@@ -21,7 +21,7 @@ public class PedidoReceiver {
     private final AtualizarStatusPedidoUseCase atualizarStatusPedidoUseCase;
     private final ObjectMapper objectMapper;
 
-    @RabbitListener(queues = "pedido.criar")
+    @RabbitListener(queues = "pedido.created")
     public void receberNovoPedido(String message) throws IOException {
         CriarPedidoRequest request = objectMapper.readValue(message, CriarPedidoRequest.class);
         criarPedidoUseCase.criar(request);

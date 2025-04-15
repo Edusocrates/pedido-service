@@ -1,5 +1,5 @@
 server:
-  port: 8083  # porta do serviço de pedidos (diferente dos outros)
+  port: 8083
   servlet:
     context-path: /pedido-service
 
@@ -41,8 +41,66 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-# Configurações de filas RabbitMQ
-mensageria:
+# Configurações de exchanges, filas, e listeners do RabbitMQ
+rabbitmq:
+  pedido:
+    cancelado:
+      exchange: pedido-cancelado-exchange
+      routing-key: pedido-cancelado-routing-key
+    created:
+      exchange: pedido-created-exchange
+      routing-key: pedido-created-routing-key
+  exchanges:
+    pedido:
+      name: pedido.estoque.exchange
+      type: direct
+    cancelado:
+      name: pedido.cancelado.exchange
+      type: direct
+    pagamento:
+      name: pedido.pagamento.exchange
+      type: direct
+    produto:
+      name: produto.atualizado.exchange
+      type: direct
   queues:
-    criar-pedido: pedido.criar
-    atualizar-status: pedido.atualizar.status
+    pedido:
+      created:
+        name: pedido.criar.queue
+        routing-key: pedido.criar
+      cancelado:
+        name: pedido.cancelado.queue
+        routing-key: pedido.cancelado
+    pagamento:
+      processar:
+        exchange: pagamento.processar.queue
+        routing-key: pagamento.processar
+    produto:
+      atualizado:
+        name: produto.atualizado.queue
+        routing-key: produto.atualizado
+    estoque:
+      status:
+        name: estoque.status.queue
+        routing-key: estoque.status
+
+  listeners:
+    # Listeners para o RabbitMQ
+    produto-atualizado:
+      queue: produto.atualizado.queue
+      routing-key: produto.atualizado
+      exchange: produto.atualizado.exchange
+    pagamento-status:
+      queue: pagamento.status.queue
+      routing-key: pagamento.status
+      exchange: pagamento.status.exchange
+    estoque-status:
+      queue: estoque.status.queue
+      routing-key: estoque.status
+      exchange: estoque.status.exchange
+
+mensageria:
+  exchange:
+    pagamento: pagamento-exchange
+  routing-key:
+    pagamento: pagamento-routing-key
