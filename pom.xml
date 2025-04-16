@@ -133,7 +133,18 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
-
+						<configuration>
+							<excludes>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/infraestrutura/mappers/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/API/request/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/API/response/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/infraestrutura/config/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/infraestrutura/messaging/event/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/infraestrutura/persistence/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/API/exceptions/**</exclude>
+								<exclude>com/fiap/rm358568/edusocrates/pedido_service/dominio/**</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

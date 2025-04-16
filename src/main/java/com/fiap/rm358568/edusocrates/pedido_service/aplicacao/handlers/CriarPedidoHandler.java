@@ -29,9 +29,6 @@ public class CriarPedidoHandler implements CriarPedidoUseCase {
     public PedidoResponse criar(CriarPedidoRequest request) {
         log.info("Criando pedido para o cliente com ID: {}", request.getClienteId());
 
-        if (request.getItens() == null || request.getItens().isEmpty()) {
-            throw new IllegalArgumentException("O pedido deve conter pelo menos um item.");
-        }
         Pedido pedido = new Pedido();
         pedido.setClienteId(request.getClienteId());
         pedido.setStatus(StatusPedido.ABERTO);
