@@ -53,7 +53,7 @@ public class PedidoController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}/cancelar")
+    @PatchMapping("/{id}/cancelar")
     @Tag(name = "Cancelar pedido", description = "Cancelar um pedido")
     @Operation(summary = "Cancelar pedido", description = "Cancelar um pedido")
     public ResponseEntity<PedidoResponse> cancelarPedido(@PathVariable UUID id) {

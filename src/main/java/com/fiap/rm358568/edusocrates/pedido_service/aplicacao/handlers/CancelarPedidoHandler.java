@@ -1,5 +1,6 @@
 package com.fiap.rm358568.edusocrates.pedido_service.aplicacao.handlers;
 
+import com.fiap.rm358568.edusocrates.pedido_service.API.exceptions.PedidoNotFoundException;
 import com.fiap.rm358568.edusocrates.pedido_service.API.response.PedidoResponse;
 import com.fiap.rm358568.edusocrates.pedido_service.aplicacao.usecases.CancelarPedidoUseCase;
 import com.fiap.rm358568.edusocrates.pedido_service.dominio.entities.Pedido;
@@ -22,7 +23,7 @@ public class CancelarPedidoHandler implements CancelarPedidoUseCase {
     public PedidoResponse cancelar(UUID pedidoId) {
         log.info("Cancelando pedido com ID: {}", pedidoId);
         Pedido pedido = pedidoGateway.buscarPorId(pedidoId)
-                .orElseThrow(() -> new IllegalArgumentException("Pedido não encontrado!"));
+                .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado!"));
 
         if (!pedido.getStatus().equals(StatusPedido.ABERTO)) {
             throw new IllegalStateException("Somente pedidos com status ABERTO podem ser cancelados!");
