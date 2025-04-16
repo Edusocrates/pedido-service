@@ -1,5 +1,6 @@
 package com.fiap.rm358568.edusocrates.pedido_service.aplicacao.handlers;
 
+import com.fiap.rm358568.edusocrates.pedido_service.API.exceptions.PedidoNotFoundException;
 import com.fiap.rm358568.edusocrates.pedido_service.API.response.PedidoResponse;
 import com.fiap.rm358568.edusocrates.pedido_service.aplicacao.usecases.AtualizarStatusPedidoUseCase;
 import com.fiap.rm358568.edusocrates.pedido_service.dominio.entities.Pedido;
@@ -22,7 +23,7 @@ public class AtualizarStatusPedidoHandler implements AtualizarStatusPedidoUseCas
     public PedidoResponse atualizarStatus(UUID pedidoId, StatusPedido novoStatus) {
         log.info("Atualizando status do pedido com ID: {}", pedidoId);
         Pedido pedido = pedidoGateway.buscarPorId(pedidoId)
-                .orElseThrow(() -> new IllegalArgumentException("Pedido não encontrado"));
+                .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado"));
 
         pedido.setStatus(novoStatus);
         Pedido atualizado = pedidoGateway.salvar(pedido);
