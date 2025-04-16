@@ -33,6 +33,7 @@ public class RabbitMqConfig {
 
     public static final String PAGAMENTO_STATUS_QUEUE = "pedido.pagamento.status";
     public static final String ESTOQUE_STATUS_QUEUE = "pedido.estoque.status";
+    public static final String PEDIDO_ATUALIZAR_STATUS_QUEUE = "pedido.atualizar.status";
 
     // Exchanges
     @Bean
@@ -69,6 +70,11 @@ public class RabbitMqConfig {
     @Bean
     public Queue pagamentoStatusQueue() {
         return new Queue(PAGAMENTO_STATUS_QUEUE);
+    }
+
+    @Bean
+    public Queue pedidoAtualizarStatusQueue() {
+        return new Queue(PEDIDO_ATUALIZAR_STATUS_QUEUE);
     }
 
     @Bean

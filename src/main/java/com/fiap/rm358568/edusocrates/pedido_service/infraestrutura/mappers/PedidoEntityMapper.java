@@ -11,7 +11,6 @@ public class PedidoEntityMapper {
 
     public static PedidoEntity toEntity(Pedido pedido) {
         return PedidoEntity.builder()
-                .id(pedido.getId())
                 .clienteId(pedido.getClienteId())
                 .status(pedido.getStatus())
                 .valorTotal(pedido.getValorTotal())

@@ -5,6 +5,7 @@ import com.fiap.rm358568.edusocrates.pedido_service.dominio.gateways.PedidoGatew
 import com.fiap.rm358568.edusocrates.pedido_service.infraestrutura.mappers.PedidoEntityMapper;
 import com.fiap.rm358568.edusocrates.pedido_service.infraestrutura.persistence.entities.PedidoEntity;
 import com.fiap.rm358568.edusocrates.pedido_service.infraestrutura.persistence.repositories.PedidoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,9 +25,18 @@ public class PedidoRepositoryGateway implements PedidoGateway {
 
 
     @Override
+    @Transactional
     public Pedido salvar(Pedido pedido) {
         log.info("Salvando pedido na base! pedido: {}", pedido);
         PedidoEntity entity = PedidoEntityMapper.toEntity(pedido);
+        entity.setId(null);
+
+        if (entity.getItens() != null) {
+            entity.getItens().forEach(item -> {
+                item.setPedido(entity);
+                item.setId(null);
+            });
+        }
         PedidoEntity salvo = repository.save(entity);
         return pedidoMapper.toDomain(salvo);
     }

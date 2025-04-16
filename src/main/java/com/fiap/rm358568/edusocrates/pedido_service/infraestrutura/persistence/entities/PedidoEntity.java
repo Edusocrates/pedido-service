@@ -6,9 +6,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 @Entity
 @Table(name = "pedidos")
 @Getter
@@ -26,7 +26,7 @@ public class PedidoEntity {
     private UUID clienteId;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<ItemPedidoEntity> itens;
+    private List<ItemPedidoEntity> itens = new ArrayList<>();
 
     @Embedded
     private DadosPagamentoEntity dadosPagamento;
@@ -39,4 +39,9 @@ public class PedidoEntity {
 
     @Column(name = "data_criacao", nullable = false)
     private LocalDateTime dataCriacao;
+
+    public void adicionarItem(ItemPedidoEntity item) {
+        item.setPedido(this);
+        this.itens.add(item);
+    }
 }
